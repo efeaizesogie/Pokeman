@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poleman Practice</title>
+    <link
+      rel="stylesheet"
+      href="./bootstrap-5.0.2-dist/css/bootstrap.min.css"
+    />
+    <script src="./jquery-3.7.0.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Pokemon</h1>
+      <button class="get-pokemon-list btn btn-primary">Get List</button>
+      <div class="pokemon-list"></div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $(".get-pokemon-list").click(function () {
+          $.get("https://pokeapi.co/api/v2/pokemon", function (data, status) {
+            var string = "";
+            string += "<table class='table' >";
+            $.each(data.results, function (index, value) {
+              string +=
+                "<tr><td class='pokemon'><a href='" +
+                value.url +
+                "'>" +
+                value.name +
+                "</td><td> <button class='show btn btn-primary'> Show </td><td> <button class='hide btn btn-primary'> Hide </td></tr>";
+            });
+            string += "</table>";
+
+            $(".pokemon-list").html(string);
+
+            if (status) {
+              $(".hide").on("click", function () {
+                $(this).parent().siblings(".pokemon").hide();
+                console.log("Hide is clicked");
+              });
+
+              $(".show").on("click", function () {
+                $(this).parent().siblings(".pokemon").show();
+              });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
